@@ -1,0 +1,109 @@
+#include <assert.h>
+#include <ctype.h>
+#include <limits.h>
+#include <math.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+char* readline();
+char* ltrim(char*);
+char* rtrim(char*);
+char** split_string(char*);
+
+int parse_int(char*);
+
+/*
+ * Complete the 'largestRectangle' function below.
+ *
+ * The function is expected to return a LONG_INTEGER.
+ * The function accepts INTEGER_ARRAY h as parameter.
+ */
+
+
+int min(int *a, int s, int e) {
+
+int i;
+
+int m = a[s];
+
+int ind = s;
+
+for(i = s; i < e; i++)
+{
+
+    if(a[i] < m)
+
+{
+
+        ind = i;
+
+        m = a[i];
+
+    }
+
+}
+
+return ind;
+}
+
+int m = 0;
+
+int doit(int *a, int s, int e)
+
+{
+
+if(s > e)
+
+{
+
+    return 0;
+
+}
+
+int k = e-s+1;
+
+int ind = min(a,s,e);
+
+int cur = k*a[ind];
+
+
+if(cur > m)
+
+{
+
+    m = cur;
+
+}
+
+doit(a,s,ind-1);
+
+doit(a,ind+1,e);
+
+return 0;
+}
+
+int main()
+
+{ 
+    int size;
+
+    scanf("%d",&size);
+
+    int a[size];
+
+    int i;
+
+    for(i = 0; i < size; i++)
+
+    {
+
+         scanf("%d",&a[i]);
+
+    }
+    doit(a,0,size-1);
+    printf("%d\n",m);
+}
