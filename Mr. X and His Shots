@@ -1,0 +1,75 @@
+#include <stdio.h>
+#include <stdlib.h>
+void sort_a(int*a,int size);
+void merge(int*a,int*left,int*right,int left_size, int right_size);
+int get_i(int*a,int num,int size);
+int med(int*a,int size);
+int h[100000],t[100000];
+
+int main(){
+  int N,M,x,y,tt,i;
+  long long ans=0;
+  scanf("%d%d",&N,&M);
+  for(i=0;i<N;i++)
+    scanf("%d%d",h+i,t+i);
+  sort_a(h,N);
+  sort_a(t,N);
+  for(i=0;i<M;i++){
+    scanf("%d%d",&x,&y);
+    tt=0;
+    tt+=get_i(t,x,N);
+    tt+=N-get_i(h,y+1,N);
+    tt=N-tt;
+    ans+=tt;
+  }
+  printf("%lld",ans);
+  return 0;
+}
+void sort_a(int*a,int size){
+  if (size < 2)
+    return;
+  int m = (size+1)/2,i;
+  int *left,*right;
+  left=(int*)malloc(m*sizeof(int));
+  right=(int*)malloc((size-m)*sizeof(int));
+  for(i=0;i<m;i++)
+    left[i]=a[i];
+  for(i=0;i<size-m;i++)
+    right[i]=a[i+m];
+  sort_a(left,m);
+  sort_a(right,size-m);
+  merge(a,left,right,m,size-m);
+  free(left);
+  free(right);
+  return;
+}
+void merge(int*a,int*left,int*right,int left_size, int right_size){
+    int i = 0, j = 0;
+    while (i < left_size|| j < right_size) {
+        if (i == left_size) {
+            a[i+j] = right[j];
+            j++;
+        } else if (j == right_size) {
+            a[i+j] = left[i];
+            i++;
+        } else if (left[i] <= right[j]) {
+            a[i+j] = left[i];
+            i++;                
+        } else {
+            a[i+j] = right[j];
+            j++;
+        }
+    }
+    return;
+}
+int get_i(int*a,int num,int size){
+  if(size==0)
+    return 0;
+  if(num>med(a,size))
+    return get_i(&a[(size+1)>>1],num,size>>1)+((size+1)>>1);
+  else
+    return get_i(a,num,(size-1)>>1);
+}
+int med(int*a,int size){
+  return a[(size-1)>>1];
+}
