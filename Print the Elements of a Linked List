@@ -1,0 +1,22 @@
+
+
+// Complete the printLinkedList function below.
+
+/*
+ * For your reference:
+ *
+ * SinglyLinkedListNode {
+ *     int data;
+ *     SinglyLinkedListNode* next;
+ * };
+ *
+ */
+void printLinkedList(SinglyLinkedListNode* head) {
+    int temp;
+    while(head)
+    {
+        printf("%d\n",head->data);
+        head=head->next;
+    }
+}
+
